@@ -1,98 +1,134 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+AI-Powered Blog Platform
+این پروژه یه پلتفرم بلاگ مبتنی بر NestJS با قابلیت تولید محتوای خودکار توسط AI (OpenAI) هست که برای نمایش مهارت‌های یک دولوپر mid-level طراحی شده. کاربران می‌تونن ثبت‌نام کنن، لاگین کنن، موضوعی برای پست بلاگ بدن و AI یه پست کامل (با عنوان، محتوا و تگ‌ها) تولید کنه. پست‌ها توی MongoDB ذخیره می‌شن و از Redis برای کشینگ استفاده می‌شه تا عملکرد بهینه بشه. این پروژه با معماری ماژولار، RESTful API، و احراز هویت JWT، تسلط به مفاهیم پیشرفته بک‌اند و کار با AI رو نشون می‌ده.
+این پروژه به‌عنوان نمونه کار برای رزومه طراحی شده و با نیازهای آگهی‌های شغلی برای دولوپرهای NestJS با تجربه در Node.js، MongoDB، AI integration و معماری کلاینت-سرور همخوانی داره.
+تکنولوژی‌های استفاده‌شده
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+NestJS: فریم‌ورک اصلی برای ساخت API ماژولار و مقیاس‌پذیر.
+MongoDB & Mongoose: برای ذخیره‌سازی پست‌ها و کاربران با روابط one-to-many.
+Redis: برای کشینگ لیست پست‌ها و جزئیات پست‌ها جهت بهبود عملکرد.
+OpenAI API: برای تولید محتوای بلاگ (عنوان، متن، تگ‌ها) بر اساس موضوع کاربر.
+JWT Authentication: برای احراز هویت کاربران با توکن‌های امن.
+Swagger: برای مستندسازی API (در /api).
+TypeScript: برای تایپینگ قوی و کاهش خطاهای runtime.
+Class-validator & DTOs: برای ولیدیشن ورودی‌ها و خروجی‌های استاندارد.
+Jest: برای تست‌های unit و e2e.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+ویژگی‌های پروژه
 
-## Description
+معماری ماژولار: ماژول‌های جدا برای auth، users، و posts با استفاده از dependency injection.
+RESTful API: اندپوینت‌های CRUD با پشتیبانی از pagination و filtering.
+AI Integration: تولید محتوای بلاگ با OpenAI (پست‌های 300-500 کلمه‌ای با عنوان و تگ‌ها).
+Caching: استفاده از Redis برای کشینگ لیست پست‌ها و جزئیات پست (TTL: 1 ساعت).
+Authentication: ثبت‌نام و لاگین با JWT و guards برای حفاظت از روت‌ها.
+Validation: استفاده از DTOها و ValidationPipe برای ورودی‌ها و خروجی‌ها.
+Error Handling: مدیریت خطاها با HttpException و logging ساده.
+API Documentation: مستندات Swagger در /api.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+پیش‌نیازها
 
-## Project setup
+Node.js: نسخه 18 یا بالاتر.
+MongoDB: لوکال یا ابری (مثل MongoDB Atlas).
+Redis: لوکال یا ابری.
+OpenAI API Key: از openai.com بگیر.
+JWT Secret: یه کلید رندوم برای امضای توکن‌ها.
 
-```bash
-$ npm install
-```
+نصب و راه‌اندازی
 
-## Compile and run the project
+کلون کردن پروژه:
+git clone <repository-url>
+cd ai-blog-api
 
-```bash
-# development
-$ npm run start
 
-# watch mode
-$ npm run start:dev
+نصب پکیج‌ها:
+npm install
 
-# production mode
-$ npm run start:prod
-```
 
-## Run tests
+ایجاد فایل .env:فایل .env رو توی ریشه پروژه بساز و این تنظیمات رو وارد کن:
+PORT=3000
+MONGO_URI=mongodb://localhost:27017/ai-blog-db
+REDIS_HOST=localhost
+REDIS_PORT=6379
+OPENAI_API_KEY=your_openai_api_key_here
+JWT_SECRET=your_jwt_secret_here
 
-```bash
-# unit tests
-$ npm run test
 
-# e2e tests
-$ npm run test:e2e
+اجرای پروژه:
 
-# test coverage
-$ npm run test:cov
-```
+حالت توسعه:npm run start:dev
 
-## Deployment
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+حالت پروداکشن:npm run build
+npm run start:prod
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
 
-## Resources
+مشاهده مستندات API:بعد از اجرا، به http://localhost:3000/api برو تا مستندات Swagger رو ببینی.
 
-Check out a few resources that may come in handy when working with NestJS:
+تست API:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+با Postman یا curl:
+ثبت‌نام: POST /auth/register با بدنه { "username": "testuser", "password": "password123" }
+لاگین: POST /auth/login با بدنه { "username": "testuser", "password": "password123" } (توکن JWT می‌گیره)
+تولید پست: POST /posts/generate با هدر Authorization: Bearer <token> و بدنه { "topic": "فواید برنامه‌نویسی" }
+لیست پست‌ها: GET /posts?page=1&limit=10
+جزئیات پست: GET /posts/:id
 
-## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
-## License
+ساختار پروژه
+ai-blog-api/
+├── src/
+│   ├── auth/
+│   │   ├── auth.controller.ts        # مدیریت ثبت‌نام و لاگین
+│   │   ├── auth.service.ts           # منطق احراز هویت
+│   │   ├── guards/                   # گاردها برای JWT و Local
+│   │   ├── strategies/               # استراتژی‌های Passport
+│   ├── posts/
+│   │   ├── posts.controller.ts       # اندپوینت‌های پست (ایجاد، لیست، جزئیات)
+│   │   ├── posts.service.ts          # منطق تولید پست با AI و کشینگ
+│   │   ├── dto/                      # DTOها برای ولیدیشن و خروجی‌ها
+│   │   ├── interfaces/               # تایپ‌های Mongoose
+│   │   ├── schemas/                  # اسکیمای MongoDB
+│   ├── users/
+│   │   ├── users.service.ts          # مدیریت کاربران
+│   │   ├── dto/                      # DTOها برای کاربر
+│   │   ├── interfaces/               # تایپ‌های کاربر
+│   │   ├── schemas/                  # اسکیمای کاربر
+│   ├── app.module.ts                 # ماژول اصلی
+│   ├── main.ts                       # نقطه ورود اپلیکیشن
+├── test/
+│   ├── app.e2e-spec.ts               # تست‌های e2e
+│   ├── posts.service.spec.ts         # تست‌های unit
+├── .env                              # تنظیمات محیطی
+├── package.json                      # وابستگی‌ها و اسکریپت‌ها
+├── tsconfig.json                     # تنظیمات TypeScript
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+تست‌ها
+
+Unit Tests: برای سرویس‌ها (مثل posts.service.spec.ts).
+E2E Tests: برای تست اندپوینت‌ها (مثل app.e2e-spec.ts).اجرا:
+
+npm run test
+npm run test:e2e
+
+ارتباط با آگهی شغلی
+این پروژه نیازهای آگهی زیر رو برآورده می‌کنه:
+
+تسلط به NestJS و معماری ماژولار: پروژه از ماژول‌های جدا، dependency injection، و best practices مثل DTOها و pipes استفاده می‌کنه.
+تسلط به AI: ادغام با OpenAI برای تولید محتوای بلاگ، با مدیریت خطاها و parsing پاسخ‌ها.
+تسلط به MongoDB و Mongoose: استفاده از روابط (user-post)، indexing، و validation.
+درک RESTful API و معماری کلاینت-سرور: اندپوینت‌های استاندارد با pagination، auth، و مستندات Swagger.
+اضافه: استفاده از Redis برای کشینگ، JWT برای امنیت، و تست‌ها برای کیفیت کد.
+
+بهبودهای ممکن
+
+اضافه کردن قابلیت ویرایش/حذف پست.
+استفاده از Winston برای logging پیشرفته.
+پیاده‌سازی rate limiting برای جلوگیری از سوءاستفاده.
+اضافه کردن Docker برای استقرار ساده‌تر.
+
+تماس
+برای سوالات یا پیشنهادات، به [ایمیل یا پروفایل GitHub خودت] پیام بدید.
